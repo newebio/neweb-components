@@ -2095,9 +2095,9 @@ needle@^2.2.0:
     iconv-lite "^0.4.4"
     sax "^1.2.4"
 
-neweb-core@^0.10.3:
-  version "0.10.3"
-  resolved "https://registry.yarnpkg.com/neweb-core/-/neweb-core-0.10.3.tgz#c774b7f2aeff6754ea002adebe4ce070d12dec66"
+neweb-core@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/neweb-core/-/neweb-core-0.11.0.tgz#7fc8b8384603fed8c5937c0b826e4f5f320304b4"
 
 node-int64@^0.4.0:
   version "0.4.0"
