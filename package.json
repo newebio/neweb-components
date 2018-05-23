@@ -1,0 +1,39 @@
+{
+  "name": "neweb-components",
+  "version": "0.11.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "tsc && tslint --project tsconfig.json && jest --verbose --coverage",
+    "watch:test": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/newebio/neweb-components.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/newebio/neweb-components/issues"
+  },
+  "homepage": "https://github.com/newebio/neweb-components#readme",
+  "jest": {},
+  "devDependencies": {
+    "@types/jest": "^22.2.3",
+    "coveralls": "^3.0.1",
+    "jest": "^22.4.4",
+    "tslint": "^5.10.0",
+    "typescript": "^2.8.3"
+  },
+  "dependencies": {
+    "@types/debug": "^0.0.30",
+    "@types/jsdom": "^11.0.4",
+    "debug": "^3.1.0",
+    "jsdom": "^11.10.0",
+    "morphdom": "^2.3.3",
+    "neweb-core": "^0.10.3",
+    "onemitter": "^0.2.4",
+    "rxjs": "^6.2.0"
+  }
+}
