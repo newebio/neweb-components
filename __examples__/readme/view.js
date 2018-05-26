@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const rxjs_1 = require("rxjs");
+const operators_1 = require("rxjs/operators");
 const __1 = require("../..");
 const template = require("./template.html");
 var EmailErrorType;
@@ -29,6 +30,9 @@ class View extends __1.Component {
                 this.emailError.next(EmailErrorType.None);
             }
         });
+        this.addElement("lblCounter", new __1.Text({
+            value: this.props.counter.pipe(operators_1.map((v) => v.toString())),
+        }));
         this.addElement("txtEmail", new __1.InputComponent({
             value: this.email,
         }));

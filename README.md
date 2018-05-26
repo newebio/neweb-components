@@ -25,6 +25,7 @@ NewebComponents use RxJs as engine for reactivity.
 // index.ts
 
 ```typescript
+import { interval } from "rxjs";
 import { Component, Document, render } from "neweb-components";
 import View from "./view";
 // Bind components to real window-object by special class `Document`
@@ -32,7 +33,9 @@ Component.setDocument(new Document({
     window,
 }));
 // Instance of view
-const view = new View();
+const view = new View({
+    counter: interval(),
+});
 // Render into container #root
 render(view, document.getElementById("root") as HTMLElement);
 ```
@@ -69,7 +72,9 @@ enum EmailErrorType {
     ShouldContainsDog = "Email should contains @",
 }
 
-class View extends Component<{}> {
+class View extends Component<{
+    counter: Observable<number>;
+}> {
     email = new BehaviorSubject("");
     emailError = new BehaviorSubject(EmailErrorType.Required);
     emails = new BehaviorSubject<string[]>([]);
@@ -84,6 +89,9 @@ class View extends Component<{}> {
                 this.emailError.next(EmailErrorType.None);
             }
         });
+        this.addElement("lblCounter", new Text({
+            value: this.props.counter.pipe(map((v) => v.toString())),
+        }));
         this.addElement("txtEmail", new InputComponent({
             value: this.email,
         }));

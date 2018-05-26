@@ -1,5 +1,6 @@
-import { BehaviorSubject, Subject } from "rxjs";
-import { Component, ElementComponent, InputComponent, List } from "../..";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
+import { map } from "rxjs/operators";
+import { Component, ElementComponent, InputComponent, List, Text } from "../..";
 import template = require("./template.html");
 
 enum EmailErrorType {
@@ -8,7 +9,9 @@ enum EmailErrorType {
     ShouldContainsDog = "Email should contains @",
 }
 
-class View extends Component<{}> {
+class View extends Component<{
+    counter: Observable<number>;
+}> {
     email = new BehaviorSubject("");
     emailError = new BehaviorSubject(EmailErrorType.Required);
     emails = new BehaviorSubject<string[]>([]);
@@ -23,6 +26,9 @@ class View extends Component<{}> {
                 this.emailError.next(EmailErrorType.None);
             }
         });
+        this.addElement("lblCounter", new Text({
+            value: this.props.counter.pipe(map((v) => v.toString())),
+        }));
         this.addElement("txtEmail", new InputComponent({
             value: this.email,
         }));

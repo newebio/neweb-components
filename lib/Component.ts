@@ -8,7 +8,7 @@ export interface IComponentProps {
     document?: Document;
     template?: string;
 }
-class Component<T extends IComponentProps> {
+class Component<T> {
     public static setDocument(document: Document) {
         Component.document = document;
     }
@@ -25,8 +25,8 @@ class Component<T extends IComponentProps> {
     protected __neweb_component = true;
     protected subscriptions: Subscription[] = [];
     protected documentValue: Document;
-    protected props: T;
-    constructor(props?: T) {
+    protected props: T & IComponentProps;
+    constructor(props?: T & IComponentProps) {
         this.props = props ? props : {} as any;
         if (this.props.document) {
             this.documentValue = this.props.document;
