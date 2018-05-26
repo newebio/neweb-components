@@ -44,6 +44,7 @@ render(view, document.getElementById("root") as HTMLElement);
 
 ```html
 <div>
+    <div>Counter: <template name="lblCounter"></template></div>
     <form name="frmMain">
         <div>
             <input autocomplete="off" name="txtEmail" type="text" placeholder="Type email" />
