@@ -1,7 +1,8 @@
 import { JSDOM } from "jsdom";
 import { IPage } from "neweb-core";
 import { BehaviorSubject, Observable } from "rxjs";
-import Component from "../Component";
+import Component from "./../Component";
+import Document from "./../Document";
 export interface IPageRendererConfig {
     app: {
         getFrameViewClass: (frameName: string) => any;
@@ -15,17 +16,22 @@ class PageRenderer {
             runScripts: "dangerously",
         });
         const window = dom.window;
-        (global as any).window = window;
-        (global as any).document = window.document;
-        const rootComponent = this.renderFrame(page.rootFrame, page, views);
-        rootComponent.init();
+        const document = new Document({
+            window,
+        });
+        const rootComponent = this.renderFrame(page.rootFrame, page, views, document);
+        rootComponent.mount();
         const root = window.document.querySelector("#root") as HTMLElement;
         root.appendChild(rootComponent.getRootElement());
         const html = root.innerHTML;
         // window.close();
         return html;
     }
-    protected renderFrame(frameId: string, page: IPage, views: { [index: string]: any }): Component<any> {
+    protected renderFrame(
+        frameId: string, page: IPage,
+        views: { [index: string]: any },
+        document: Document,
+    ): Component<any> {
         const pageFrame = page.frames.filter((f) => f.frameId === frameId)[0];
         const FrameView = views[pageFrame.frameId];
         if (!FrameView) {
@@ -35,13 +41,14 @@ class PageRenderer {
         Object.keys(pageFrame.frames).map(async (placeName) => {
             const childFrameId = pageFrame.frames[placeName];
             // const childFrame = page.frames.filter((f) => f.frameId === childFrameId)[0];
-            children[placeName] = this.renderFrame(childFrameId, page, views);
+            children[placeName] = this.renderFrame(childFrameId, page, views, document);
         });
         const data: { [index: string]: Observable<any> } = {};
         Object.keys(pageFrame.data).map((dataName) => {
             data[dataName] = new BehaviorSubject(pageFrame.data[dataName]);
         });
         const component = new FrameView({
+            document,
             data,
             children,
             params: new BehaviorSubject(pageFrame.params),

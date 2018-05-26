@@ -1,84 +1,187 @@
 import morphdom = require("morphdom");
-import { createElement } from "./dom";
+import { isObservable, Observable, Subscription } from "rxjs";
+import Document from "./Document";
 import { fromString } from "./template";
-class Component<T> {
-    protected rootElement: Element;
+import { getElementAttributes, nodesToMap } from "./util";
+
+export interface IComponentProps {
+    document?: Document;
+    template?: string;
+}
+class Component<T extends IComponentProps> {
+    public static setDocument(document: Document) {
+        Component.document = document;
+    }
+    protected static document?: Document;
+    protected rootElement: Node;
     protected elements: { [index: string]: Component<any> } = {};
     protected children: Node[];
     protected tagName: keyof HTMLElementTagNameMap;
+    protected mountAttributes: { [index: string]: string };
     protected hasRender = true;
-    protected isInited = false;
+    protected isMounted = false;
+    // Special var for check isComponent
     // tslint:disable-next-line:variable-name
     protected __neweb_component = true;
-    constructor(protected props: T) { }
-    public init() {
-        if (this.isInited) {
+    protected subscriptions: Subscription[] = [];
+    protected documentValue: Document;
+    protected props: T;
+    constructor(props?: T) {
+        this.props = props ? props : {} as any;
+        if (this.props.document) {
+            this.documentValue = this.props.document;
+        } else if (Component.document) {
+            this.documentValue = Component.document;
+        }
+    }
+    public get document() {
+        if (!this.documentValue) {
+            throw new Error("Document should be setted");
+        }
+        return this.documentValue;
+    }
+    public setDocument(document: Document) {
+        this.documentValue = document;
+    }
+    public mount(elForMount?: Element) {
+        // check if mounted
+        if (this.isMounted) {
             throw new Error("Component already inited");
         }
-        this.isInited = true;
-        this.beforeInit();
-        const html = this.getTemplate();
+        this.isMounted = true;
+        // set mounted props
+        if (elForMount) {
+            this.saveMountElement(elForMount);
+        }
+        //
+        this.beforeMount();
+        // create root element
+        // from template
+        const html = this.props.template ? this.props.template : this.getTemplate();
         if (html) {
-            this.setTemplate(html);
+            this.setRootElementByTemplate(html);
         } else if (!this.rootElement) {
+            // from render
             this.rootElement = this.render();
         }
-        this.afterInit();
+        this.afterMount();
+        // method for replace root element for hydrate
         (this.getRootElement() as any).onUpdateElement = (newEl: any) => {
             this.rootElement = newEl;
         };
     }
-    public setTagName(tagName: keyof HTMLElementTagNameMap) {
-        this.tagName = tagName;
-    }
-    public setChildren(children: Node[]) {
-        this.children = children;
-    }
+    /**
+     * Method for clean resources
+     */
     public dispose() {
+        // unsubscribe for all subscriptions
+        this.subscriptions.map((subscription) => subscription.unsubscribe);
+        // dispose all children elements
         Object.keys(this.elements).map((name) => this.elements[name].dispose());
     }
-    public getElement(name: string): Component<any> | null {
-        if (!(this as any)[name]) {
-            return null;
-        }
-        return (this as any)[name];
-    }
+    /**
+     * Children elements
+     */
     public getElements() {
         return this.elements;
     }
-    public getRootElement(): Element {
+    /**
+     * Root element
+     */
+    public getRootElement(): Node {
         return this.rootElement;
+    }
+    protected saveMountElement(elForMount: Element) {
+        this.tagName = elForMount.tagName as any;
+        this.children = nodesToMap(elForMount.childNodes);
+        this.mountAttributes = getElementAttributes(elForMount);
     }
     protected getTemplate(): string | undefined {
         return undefined;
     }
-    protected setTemplate(html: string) {
-        this.rootElement = this.template(html);
+    /**
+     * Create root element by template
+     */
+    protected setRootElementByTemplate(html: string) {
+        this.rootElement = this.createElementfromTemplate(html);
     }
-    protected addElement<X>(
+    /**
+     * Add child element
+     * @param name Name of element inside component
+     * @param element any Component
+     */
+    protected addElement(
         name: string,
-        element: Component<X>) {
+        element: Component<any>) {
+        if (this.elements[name]) {
+            throw new Error("Element with name " + name + " already existing");
+        }
         this.elements[name] = element;
     }
+    /**
+     * Method for creating the component's dom
+     */
     protected render(): Element {
-        const root = createElement(this.tagName);
+        // Create new element by current tagName, default `div`
+        const root = this.document.createElement(this.tagName ? this.tagName as any : "div");
+        // if component has children dom-elements, add it
         if (this.children) {
             this.children.map((child) => root.appendChild(child));
         }
+        // copy all mount attrs
+        if (this.mountAttributes) {
+            Object.keys(this.mountAttributes).map((attrName) => {
+                root.setAttribute(attrName, this.mountAttributes[attrName]);
+            });
+        }
         return root;
     }
-    protected beforeInit() {
+    /**
+     * Hook for adding children elements and set other properties for render
+     */
+    protected beforeMount() {
         //
     }
-    protected afterInit() {
+    /**
+     * Hook for work with root-element, like events
+     */
+    protected afterMount() {
         //
     }
-    protected template(html: string) {
-        return fromString(html, this.getElements());
+    /**
+     * Hook before dispose
+     */
+    protected beforeDispose() {
+        //
     }
+    /**
+     * Hook after dispose
+     */
+    protected afterDispose() {
+        //
+    }
+    /**
+     * Create dom from html-string and children elements
+     * @param html any html
+     */
+    protected createElementfromTemplate(html: string) {
+        return fromString(this.document, html, this.getElements());
+    }
+    /**
+     * Update component's dom-tree by new render
+     */
     protected update() {
-        const nextRender = this.render();
-        morphdom(this.rootElement, nextRender);
+        morphdom(this.rootElement, this.render());
+    }
+    /**
+     * Subscribe properties by primitive value of Observable
+     */
+    protected subscribe<V>(value: V | Observable<V>, observer: (value: V) => void) {
+        if (isObservable(value)) {
+            this.subscriptions.push(value.subscribe(observer));
+        } else {
+            observer(value);
+        }
     }
 }
 export default Component;

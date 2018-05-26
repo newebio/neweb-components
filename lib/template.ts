@@ -1,8 +1,11 @@
 import Component from "./Component";
-import { addEventListener, createElement } from "./dom";
+import Document from "./Document";
 
-export function fromString(html: string, elements: { [index: string]: Component<any> }): HTMLElement {
-    const div = createElement("div");
+export function fromString(
+    document: Document,
+    html: string,
+    elements: { [index: string]: Component<any> }): HTMLElement {
+    const div = document.createElement("div");
     div.innerHTML = html;
     const htmlElements = div.querySelectorAll("[name]") as NodeListOf<HTMLElement>;
     for (const element of htmlElements) {
@@ -16,7 +19,7 @@ export function fromString(html: string, elements: { [index: string]: Component<
     const links = div.querySelectorAll(`[type="neweb-link"]`) as NodeListOf<HTMLElement>;
     for (const element of links) {
         element.removeAttribute("type");
-        addEventListener(element, "click", (e) => {
+        document.addEventListener(element, "click", (e) => {
             e.preventDefault();
             const link = e.target as Element;
             const href = link.getAttribute("href");
@@ -32,9 +35,7 @@ export function fromString(html: string, elements: { [index: string]: Component<
     return div;
 }
 export function replaceElementToComponent(element: Element, childComponent: Component<any>) {
-    childComponent.setTagName(element.tagName as any);
-    childComponent.setChildren(nodesToMap(element.childNodes));
-    childComponent.init();
+    childComponent.mount(element);
     const children = childComponent.getRootElement() as HTMLElement;
     const className = element.getAttribute("class");
     if (className) {
@@ -48,11 +49,4 @@ export function replaceElementToComponent(element: Element, childComponent: Comp
     parent.appendChild(children);
     parent.insertBefore(children, element);
     parent.removeChild(element);
-}
-export function nodesToMap(listOfNodes: NodeListOf<Node>) {
-    const children: Node[] = [];
-    for (const node of listOfNodes) {
-        children.push(node);
-    }
-    return children;
 }

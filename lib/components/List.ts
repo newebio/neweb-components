@@ -1,33 +1,37 @@
 import { Observable } from "rxjs";
-import Component from "./Component";
-import { createElement } from "./dom";
-import { nodesToMap } from "./template";
-import { isComponent, isObservable } from "./util";
+import { isComponent, isObservable } from "./../util";
+import ElementComponent, { IElementComponentProps } from "./ElementComponent";
 
-export interface IListConfig<T> {
+export interface IListProps<T> extends IElementComponentProps {
     items: T[] | Observable<T[]>;
-    rootTag?: keyof HTMLElementTagNameMap;
-    renderItem?: (item: T, index: number) => Element | Component<any> | string;
+    renderItem?: (item: T, index: number) => Element | ElementComponent | string;
     class?: string;
 }
-class List<T> extends Component<IListConfig<T>> {
+class List<T> extends ElementComponent {
     protected items: T[];
-    protected rootTag: keyof HTMLElementTagNameMap = "ul";
+    protected tagName: keyof HTMLElementTagNameMap = "ul";
     protected childNode?: Element;
-    protected beforeInit() {
-        if (this.props.rootTag) {
-            this.rootTag = this.props.rootTag;
+    constructor(protected props: IListProps<T>) {
+        super(props);
+    }
+    public mount(elForMount?: Element) {
+        if (elForMount) {
+            this.saveMountElement(elForMount);
         }
-        const childrenElements = this.children.filter((n) => n.nodeType === 1);
+        const childrenElements = this.children ? this.children.filter((n) => n.nodeType === 1) : [];
         this.childNode = childrenElements.length === 1 ? childrenElements[0] as Element : undefined;
         if (this.props.renderItem) {
             this.renderItem = this.props.renderItem;
         } else if (childrenElements.length === 1) {
             const node = childrenElements[0] as Element;
             this.renderItem = (item: T) => {
-                const child = createElement(node.tagName as any);
-                child.setAttribute("class", node.getAttribute("class"));
-                child.setAttribute("style", node.getAttribute("style"));
+                const child = this.document.createElement(node.tagName as any);
+                if (node.getAttribute("class")) {
+                    child.setAttribute("class", node.getAttribute("class"));
+                }
+                if (node.getAttribute("style")) {
+                    child.setAttribute("style", node.getAttribute("style"));
+                }
                 child.innerHTML = item;
                 return child;
             };
@@ -43,8 +47,9 @@ class List<T> extends Component<IListConfig<T>> {
         } else {
             this.items = this.props.items;
         }
+        super.mount();
     }
-    protected afterInit() {
+    protected afterMount() {
         const rootElement = this.getRootElement();
         if (this.props.class) {
             rootElement.className = this.props.class;
@@ -59,15 +64,12 @@ class List<T> extends Component<IListConfig<T>> {
         return root as Element;
     }
     protected render() {
-        const ul = this.rootElement ? this.clone() : createElement(this.rootTag);
+        const ul = this.rootElement ? this.clone() : this.document.createElement(this.tagName);
         this.items.map((item, index) => {
             const child = this.renderItem(item as any, index);
             if (isComponent(child)) {
-                if (this.childNode) {
-                    child.setTagName(this.childNode.tagName as any);
-                    child.setChildren(nodesToMap(this.childNode.childNodes));
-                }
-                child.init();
+                child.setDocument(this.document);
+                child.mount(this.childNode);
                 if (this.childNode) {
                     const className = this.childNode.getAttribute("class");
                     if (className) {
@@ -80,15 +82,15 @@ class List<T> extends Component<IListConfig<T>> {
                 }
                 ul.appendChild(child.getRootElement());
             } else if (typeof (child) === "string") {
-                ul.appendChild(this.template(child));
+                ul.appendChild(this.createElementfromTemplate(child));
             } else {
                 ul.appendChild(child);
             }
         });
         return ul;
     }
-    protected renderItem(item: T, _: number): Element | Component<any> | string {
-        const li = createElement("li");
+    protected renderItem(item: T, _: number): Element | ElementComponent | string {
+        const li = this.document.createElement("li");
         li.innerHTML = item as any;
         return li;
     }
