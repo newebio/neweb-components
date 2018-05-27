@@ -19,7 +19,7 @@ class View extends __1.Component {
         this.submit = new rxjs_1.Subject();
     }
     beforeMount() {
-        this.subscribe(this.email, (value) => {
+        this.addSubscription(this.email, (value) => {
             if (!value) {
                 this.emailError.next(EmailErrorType.Required);
             }

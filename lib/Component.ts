@@ -176,7 +176,7 @@ class Component<T> {
     /**
      * Subscribe properties by primitive value of Observable
      */
-    protected subscribe<V>(value: V | Observable<V>, observer: (value: V) => void) {
+    protected addSubscription<V>(value: V | Observable<V>, observer: (value: V) => void) {
         if (isObservable(value)) {
             this.subscriptions.push(value.subscribe(observer));
         } else {

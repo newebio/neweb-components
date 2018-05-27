@@ -23,7 +23,7 @@ class InputComponent extends ElementComponent {
         };
         this.document.addEventListener(this.rootElement, "change", listenerFn, false);
         this.document.addEventListener(this.rootElement, "input", listenerFn, false);
-        this.subscribe(this.props.value, (value) => {
+        this.addSubscription(this.props.value, (value) => {
             if (value !== this.rootElement.value) {
                 this.rootElement.value = value;
             }

@@ -10,7 +10,7 @@ class DynamicComponent extends ElementComponent {
         super(props);
     }
     public afterMount() {
-        this.subscribe(this.props.component, this.setComponent);
+        this.addSubscription(this.props.component, this.setComponent);
     }
     public setComponent = (component: Component<any>) => {
         const rootElement = this.getRootElement();

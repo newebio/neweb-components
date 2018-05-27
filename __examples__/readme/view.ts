@@ -17,7 +17,7 @@ class View extends Component<{
     emails = new BehaviorSubject<string[]>([]);
     submit = new Subject<void>();
     beforeMount() {
-        this.subscribe(this.email, (value) => {
+        this.addSubscription(this.email, (value) => {
             if (!value) {
                 this.emailError.next(EmailErrorType.Required);
             } else if (value.indexOf("@") === -1) {

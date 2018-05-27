@@ -12,7 +12,7 @@ export class Link extends ElementComponent {
     }
     public afterMount() {
         super.afterMount();
-        this.subscribe(this.props.url, (url) => {
+        this.addSubscription(this.props.url, (url) => {
             this.url = url;
             if (this.rootElement.tagName.toLowerCase() === "a") {
                 this.rootElement.setAttribute("href", this.url);

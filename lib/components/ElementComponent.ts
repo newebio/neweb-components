@@ -33,7 +33,7 @@ class ElementComponent extends Component<IElementComponentProps> {
             this.bindEventToProp(eventName, events[eventName]);
         });
         if (this.props.innerHTML) {
-            this.subscribe(this.props.innerHTML, (html) => {
+            this.addSubscription(this.props.innerHTML, (html) => {
                 const clonedElement = this.rootElement.cloneNode(false) as Element;
                 clonedElement.innerHTML = html;
                 morphdom(this.rootElement, clonedElement);
@@ -41,12 +41,12 @@ class ElementComponent extends Component<IElementComponentProps> {
         }
     }
     protected bindAttributeToProp<V extends string>(attrName: string, prop: V | Observable<V>) {
-        this.subscribe(prop, (value) => {
+        this.addSubscription(prop, (value) => {
             this.rootElement.setAttribute(attrName, value);
         });
     }
     protected bindInnerHtmlToProp(prop: string | Observable<string>) {
-        this.subscribe(prop, (value) => {
+        this.addSubscription(prop, (value) => {
             this.rootElement.innerHTML = value;
         });
     }
