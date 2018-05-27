@@ -2,14 +2,14 @@ import { of } from "rxjs";
 import { domNodeToJson } from "../util";
 import Document from "./../Document";
 import DynamicComponent from "./DynamicComponent";
-import Text from "./Text";
+import TextNode from "./TextNode";
 
 describe("Dynamic component tests", () => {
     const doc = new Document({
         window,
     });
     it("bind component", () => {
-        const text = new Text({
+        const text = new TextNode({
             value: "value1",
         });
         const dynamic1 = new DynamicComponent({

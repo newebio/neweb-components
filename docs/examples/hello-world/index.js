@@ -8,7 +8,7 @@ const value = new rxjs.BehaviorSubject("");
 const input = new neweb.InputComponent({
     value,
 });
-const text = new neweb.Text({
+const text = new neweb.TextNode({
     value,
 });
 const view = new (class extends neweb.Component {

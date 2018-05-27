@@ -10,7 +10,7 @@ const value = new rxjs.BehaviorSubject<string>("");
 const input = new neweb.InputComponent({
     value,
 });
-const text = new neweb.Text({
+const text = new neweb.TextNode({
     value,
 });
 

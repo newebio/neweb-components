@@ -23,7 +23,7 @@ export function hydrate(el: Component<any>, to: HTMLElement) {
             if (newEl.onUpdateElement) {
                 newEl.onUpdateElement(oldEl);
             }
-            return false;
+            return true;
         },
     });
 

@@ -1,6 +1,6 @@
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { map } from "rxjs/operators";
-import { Component, ElementComponent, InputComponent, List, Text } from "../..";
+import { Component, ElementComponent, InputComponent, List, TextNode } from "../..";
 import template = require("./template.html");
 
 enum EmailErrorType {
@@ -26,7 +26,7 @@ class View extends Component<{
                 this.emailError.next(EmailErrorType.None);
             }
         });
-        this.addElement("lblCounter", new Text({
+        this.addElement("lblCounter", new TextNode({
             value: this.props.counter.pipe(map((v) => v.toString())),
         }));
         this.addElement("txtEmail", new InputComponent({

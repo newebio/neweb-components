@@ -30,7 +30,7 @@ class View extends __1.Component {
                 this.emailError.next(EmailErrorType.None);
             }
         });
-        this.addElement("lblCounter", new __1.Text({
+        this.addElement("lblCounter", new __1.TextNode({
             value: this.props.counter.pipe(operators_1.map((v) => v.toString())),
         }));
         this.addElement("txtEmail", new __1.InputComponent({
