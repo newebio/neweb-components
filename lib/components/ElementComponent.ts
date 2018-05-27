@@ -10,9 +10,10 @@ export interface IElementComponentProps extends IComponentProps {
     innerHTML?: string | Observable<string>;
     tagName?: keyof HTMLElementTagNameMap;
 }
-class ElementComponent extends Component<IElementComponentProps> {
+class ElementComponent<T> extends Component<{}> {
     protected rootElement: Element;
-    constructor(props?: IElementComponentProps) {
+    protected props: IElementComponentProps & T;
+    constructor(props?: T & IElementComponentProps) {
         super(props);
     }
     public getRootElement(): Element {

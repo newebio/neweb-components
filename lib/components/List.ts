@@ -4,10 +4,10 @@ import ElementComponent, { IElementComponentProps } from "./ElementComponent";
 
 export interface IListProps<T> extends IElementComponentProps {
     items: T[] | Observable<T[]>;
-    renderItem?: (item: T, index: number) => Element | ElementComponent | string;
+    renderItem?: (item: T, index: number) => Element | ElementComponent<any> | string;
     class?: string;
 }
-class List<T> extends ElementComponent {
+class List<T> extends ElementComponent<IElementComponentProps> {
     protected items: T[];
     protected tagName: keyof HTMLElementTagNameMap = "ul";
     protected childNode?: Element;
@@ -89,7 +89,7 @@ class List<T> extends ElementComponent {
         });
         return ul;
     }
-    protected renderItem(item: T, _: number): Element | ElementComponent | string {
+    protected renderItem(item: T, _: number): Element | ElementComponent<any> | string {
         const li = this.document.createElement("li");
         li.innerHTML = item as any;
         return li;

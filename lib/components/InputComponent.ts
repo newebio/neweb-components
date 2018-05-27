@@ -5,7 +5,7 @@ import ElementComponent, { IElementComponentProps } from "./ElementComponent";
 export interface IInputComponentProps extends IElementComponentProps {
     value: string | Subject<string>;
 }
-class InputComponent extends ElementComponent {
+class InputComponent extends ElementComponent<IInputComponentProps> {
     protected rootElement: HTMLInputElement;
     protected props: IInputComponentProps;
     constructor(props?: IInputComponentProps) {

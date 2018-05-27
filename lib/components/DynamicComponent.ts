@@ -4,7 +4,7 @@ import ElementComponent from "./ElementComponent";
 export interface IDynamicComponentProps extends IComponentProps {
     component: Component<any> | Observable<Component<any>>;
 }
-class DynamicComponent extends ElementComponent {
+class DynamicComponent extends ElementComponent<IDynamicComponentProps> {
     protected currentComponent: Component<any>;
     constructor(protected props: IDynamicComponentProps) {
         super(props);

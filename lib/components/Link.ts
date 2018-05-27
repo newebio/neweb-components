@@ -4,7 +4,7 @@ export interface ILinkProps extends IElementComponentProps {
     url: string | Observable<string>;
     replace?: boolean;
 }
-export class Link extends ElementComponent {
+export class Link extends ElementComponent<ILinkProps> {
     protected tagName: keyof HTMLElementTagNameMap = "a";
     protected url: string;
     constructor(protected props: ILinkProps) {
