@@ -1,8 +1,8 @@
 import morphdom = require("morphdom");
-import { isObservable, Observable, Subscription } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import Document from "./Document";
 import { fromString } from "./template";
-import { getElementAttributes, nodesToMap } from "./util";
+import { getElementAttributes, isObservable, nodesToMap } from "./util";
 
 export interface IComponentProps {
     document?: Document;

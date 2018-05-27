@@ -3,8 +3,6 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-var ClientPageRenderer_1 = require("./lib/client/ClientPageRenderer");
-exports.ClientPageRenderer = ClientPageRenderer_1.default;
 var Component_1 = require("./lib/Component");
 exports.Component = Component_1.default;
 var Document_1 = require("./lib/Document");

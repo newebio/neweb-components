@@ -1,11 +1,11 @@
 import { Subject } from "rxjs";
+import { isObservable } from "./../util";
 import ElementComponent, { IElementComponentProps } from "./ElementComponent";
 
 export interface IInputComponentProps extends IElementComponentProps {
-    value?: Subject<string>;
+    value: string | Subject<string>;
 }
 class InputComponent extends ElementComponent {
-    public value: Subject<string>;
     protected rootElement: HTMLInputElement;
     protected props: IInputComponentProps;
     constructor(props?: IInputComponentProps) {
@@ -16,13 +16,14 @@ class InputComponent extends ElementComponent {
     }
     protected afterMount() {
         super.afterMount();
-        this.value = this.props.value ? this.props.value : new Subject<string>();
         const listenerFn = () => {
-            this.value.next(this.rootElement.value);
+            if (isObservable(this.props.value)) {
+                this.props.value.next(this.rootElement.value);
+            }
         };
         this.document.addEventListener(this.rootElement, "change", listenerFn, false);
         this.document.addEventListener(this.rootElement, "input", listenerFn, false);
-        this.value.subscribe((value) => {
+        this.subscribe(this.props.value, (value) => {
             if (value !== this.rootElement.value) {
                 this.rootElement.value = value;
             }

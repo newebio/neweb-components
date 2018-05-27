@@ -1,5 +1,3 @@
-export { default as ClientPageRenderer } from "./lib/client/ClientPageRenderer";
-
 export { default as Component } from "./lib/Component";
 export { default as Document } from "./lib/Document";
 export { default as Text } from "./lib/components/Text";

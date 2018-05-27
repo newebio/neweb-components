@@ -1,0 +1,21 @@
+<!doctype>
+<html>
+
+<head>
+    <script src="https://raw.githubusercontent.com/newebio/neweb-components/master/dist/neweb-components.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/6.2.0/rxjs.umd.min.js"></script>
+</head>
+
+<body>
+    <template id="template1">
+        <input name="txtName" placeholder="Type your name" />
+        Hello, <template name="lblName"></template>!
+    </template>
+    <div id="root"></div>
+    <script>
+        window.exports = {};
+    </script>
+    <script src="index.js"></script>
+</body>
+
+</html>
