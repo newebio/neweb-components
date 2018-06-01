@@ -6,5 +6,6 @@ export { default as List } from "./lib/components/List";
 export { default as DynamicComponent } from "./lib/components/DynamicComponent";
 export { default as ElementComponent } from "./lib/components/ElementComponent";
 export { default as InputComponent } from "./lib/components/InputComponent";
+export { default as BooleanInputComponent } from "./lib/components/BooleanInputComponent";
 
 export * from "./lib/render";

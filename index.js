@@ -19,4 +19,6 @@ var ElementComponent_1 = require("./lib/components/ElementComponent");
 exports.ElementComponent = ElementComponent_1.default;
 var InputComponent_1 = require("./lib/components/InputComponent");
 exports.InputComponent = InputComponent_1.default;
+var BooleanInputComponent_1 = require("./lib/components/BooleanInputComponent");
+exports.BooleanInputComponent = BooleanInputComponent_1.default;
 __export(require("./lib/render"));
