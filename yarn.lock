@@ -41,6 +41,10 @@
   version "22.2.3"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-22.2.3.tgz#0157c0316dc3722c43a7b71de3fdf3acbccef10d"
 
+"@types/morphdom@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@types/morphdom/-/morphdom-2.3.0.tgz#5e9fb5b254ff32fc0e6e38da1c7b92aae5687cb3"
+
 "@types/node@*":
   version "10.1.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.1.2.tgz#1b928a0baa408fc8ae3ac012cc81375addc147c6"
