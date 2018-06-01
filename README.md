@@ -25,7 +25,7 @@ NewebComponents use RxJs as engine for reactivity.
 // index.ts
 
 ```typescript
-import { interval } from "rxjs";
+import { interval } from "rxjs/observable/interval";
 import { Component, Document, render } from "neweb-components";
 import View from "./view";
 // Bind components to real window-object by special class `Document`
@@ -63,7 +63,8 @@ render(view, document.getElementById("root") as HTMLElement);
 // view.ts
 
 ```typescript
-import { BehaviorSubject, Subject } from "rxjs";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { Subject } from "rxjs/Subject";
 import { Component, ElementComponent, InputComponent, List } from "neweb-components";
 import template = require("./template.html");
 

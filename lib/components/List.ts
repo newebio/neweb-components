@@ -1,4 +1,4 @@
-import { Observable } from "rxjs";
+import { Observable } from "rxjs/Observable";
 import { isComponent, isObservable } from "./../util";
 import ElementComponent, { IElementComponentProps } from "./ElementComponent";
 

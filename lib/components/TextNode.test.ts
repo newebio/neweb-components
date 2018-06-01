@@ -1,4 +1,4 @@
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { domNodeToJson } from "../util";
 import Document from "./../Document";
 import TextNode from "./TextNode";

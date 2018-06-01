@@ -1,4 +1,5 @@
-import { BehaviorSubject, of } from "rxjs";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { of } from "rxjs/observable/of";
 import { Component } from "../..";
 import Document from "./../Document";
 import DynamicComponent from "./DynamicComponent";

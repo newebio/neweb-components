@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const rxjs_1 = require("rxjs");
-const operators_1 = require("rxjs/operators");
+const BehaviorSubject_1 = require("rxjs/BehaviorSubject");
+const map_1 = require("rxjs/operators/map");
+const Subject_1 = require("rxjs/Subject");
 const __1 = require("../..");
 const template = require("./template.html");
 var EmailErrorType;
@@ -13,10 +14,10 @@ var EmailErrorType;
 class View extends __1.Component {
     constructor() {
         super(...arguments);
-        this.email = new rxjs_1.BehaviorSubject("");
-        this.emailError = new rxjs_1.BehaviorSubject(EmailErrorType.Required);
-        this.emails = new rxjs_1.BehaviorSubject([]);
-        this.submit = new rxjs_1.Subject();
+        this.email = new BehaviorSubject_1.BehaviorSubject("");
+        this.emailError = new BehaviorSubject_1.BehaviorSubject(EmailErrorType.Required);
+        this.emails = new BehaviorSubject_1.BehaviorSubject([]);
+        this.submit = new Subject_1.Subject();
     }
     beforeMount() {
         this.addSubscription(this.email, (value) => {
@@ -31,7 +32,7 @@ class View extends __1.Component {
             }
         });
         this.addElement("lblCounter", new __1.TextNode({
-            value: this.props.counter.pipe(operators_1.map((v) => v.toString())),
+            value: this.props.counter.pipe(map_1.map((v) => v.toString())),
         }));
         this.addElement("txtEmail", new __1.InputComponent({
             value: this.email,

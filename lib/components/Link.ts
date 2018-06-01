@@ -1,4 +1,4 @@
-import { Observable } from "rxjs";
+import { Observable } from "rxjs/Observable";
 import ElementComponent, { IElementComponentProps } from "./ElementComponent";
 export interface ILinkProps extends IElementComponentProps {
     url: string | Observable<string>;

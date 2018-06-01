@@ -1,4 +1,4 @@
-import { Observable } from "rxjs";
+import { Observable } from "rxjs/Observable";
 import Component from "./Component";
 
 export function isObservable(obj: any): obj is Observable<any> {

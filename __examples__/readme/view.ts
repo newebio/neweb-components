@@ -1,5 +1,7 @@
-import { BehaviorSubject, Observable, Subject } from "rxjs";
-import { map } from "rxjs/operators";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { Observable } from "rxjs/Observable";
+import { map } from "rxjs/operators/map";
+import { Subject } from "rxjs/Subject";
 import { Component, ElementComponent, InputComponent, List, TextNode } from "../..";
 import template = require("./template.html");
 

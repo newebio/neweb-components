@@ -1,4 +1,5 @@
-import { of, Subject } from "rxjs";
+import { of } from "rxjs/observable/of";
+import { Subject } from "rxjs/Subject";
 import { domNodeToJson } from "../util";
 import Document from "./../Document";
 import ElementComponent from "./ElementComponent";

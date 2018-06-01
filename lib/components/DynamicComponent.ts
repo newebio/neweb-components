@@ -1,4 +1,4 @@
-import { Observable } from "rxjs";
+import { Observable } from "rxjs/Observable";
 import Component, { IComponentProps } from "./../Component";
 import ElementComponent from "./ElementComponent";
 export interface IDynamicComponentProps extends IComponentProps {
