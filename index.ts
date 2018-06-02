@@ -5,6 +5,7 @@ export { default as Link } from "./lib/components/Link";
 export { default as List } from "./lib/components/List";
 export { default as DynamicComponent } from "./lib/components/DynamicComponent";
 export { default as ElementComponent } from "./lib/components/ElementComponent";
+export { default as HtmlComponent } from "./lib/components/HtmlComponent";
 export { default as InputComponent } from "./lib/components/InputComponent";
 export { default as BooleanInputComponent } from "./lib/components/BooleanInputComponent";
 
