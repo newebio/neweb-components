@@ -1,4 +1,3 @@
-import morphdom = require("morphdom");
 import Component from "./Component";
 
 export function render(el: Component<any>, to: HTMLElement) {
