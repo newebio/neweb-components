@@ -38,11 +38,11 @@ export function replaceElementToComponent(element: Element, childComponent: Comp
     childComponent.mount(element);
     const children = childComponent.getRootElement() as HTMLElement;
     const className = element.getAttribute("class");
-    if (className) {
+    if (className && !children.getAttribute("class")) {
         children.setAttribute("class", className);
     }
     const style = element.getAttribute("style");
-    if (style) {
+    if (style && !children.getAttribute("style")) {
         children.setAttribute("style", style);
     }
     const parent = (element.parentElement as HTMLElement);

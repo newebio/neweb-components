@@ -30,6 +30,7 @@ class ElementComponent<T> extends Component<{}> {
         const events = this.props.events || {};
         const attributes = this.props.attributes || {};
         const properties = this.props.properties || {};
+
         Object.keys(attributes).map((attrName) => {
             this.bindAttributeToProp(attrName, attributes[attrName]);
         });
