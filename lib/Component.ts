@@ -70,6 +70,7 @@ class Component<T> {
         (this.getRootElement() as any).onUpdateElement = (newEl: any) => {
             this.rootElement = newEl;
         };
+        (this.rootElement as any).$component = this;
     }
     /**
      * Method for clean resources
@@ -79,6 +80,7 @@ class Component<T> {
         this.subscriptions.map((subscription) => subscription.unsubscribe);
         // dispose all children elements
         Object.keys(this.elements).map((name) => this.elements[name].dispose());
+        delete (this.rootElement as any).$component;
     }
     /**
      * Children elements
