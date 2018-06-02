@@ -1,3 +1,4 @@
+import { BehaviorSubject } from "rxjs";
 import { of } from "rxjs/observable/of";
 import { Subject } from "rxjs/Subject";
 import { domNodeToJson } from "../util";
@@ -23,6 +24,21 @@ describe("ElementComponent tests", () => {
                 tagName: "div", childNodes: [], nodeType: 1,
             },
         );
+    });
+    it("bind property", () => {
+        const checked$ = new BehaviorSubject(true);
+        const element1 = new ElementComponent({
+            document: doc,
+            tagName: "input",
+            properties: {
+                type: "checkbox",
+                checked: checked$,
+            },
+        });
+        element1.mount();
+        expect((element1.getRootElement() as HTMLInputElement).checked).toBe(true);
+        checked$.next(false);
+        expect((element1.getRootElement() as HTMLInputElement).checked).toBe(false);
     });
     it("bind event", () => {
         const event1 = new Subject<any>();
@@ -60,7 +76,7 @@ describe("ElementComponent tests", () => {
         );
     });
     it("custom tagName", () => {
-        const element1 = new ElementComponent ({
+        const element1 = new ElementComponent({
             document: doc,
             tagName: "pre",
         });

@@ -8,6 +8,7 @@ export interface IElementComponentProps extends IComponentProps {
     events?: {
         [index: string]: ((e: Event) => void) | Subject<any>;
     };
+    properties?: { [index: string]: any | Observable<any> };
     innerHTML?: string | Observable<string>;
     tagName?: keyof HTMLElementTagNameMap;
 }
@@ -28,11 +29,15 @@ class ElementComponent<T> extends Component<{}> {
     protected afterMount() {
         const events = this.props.events || {};
         const attributes = this.props.attributes || {};
+        const properties = this.props.properties || {};
         Object.keys(attributes).map((attrName) => {
             this.bindAttributeToProp(attrName, attributes[attrName]);
         });
         Object.keys(events).map((eventName) => {
             this.bindEventToProp(eventName, events[eventName]);
+        });
+        Object.keys(properties).map((propertyName) => {
+            this.bindPropertyToProp(propertyName, properties[propertyName]);
         });
         if (this.props.innerHTML) {
             this.addSubscription(this.props.innerHTML, (html) => {
@@ -57,6 +62,11 @@ class ElementComponent<T> extends Component<{}> {
             prop.next(e);
         };
         this.document.addEventListener(this.rootElement, eventName, listenerFn, false);
+    }
+    protected bindPropertyToProp(propertyName: string, prop: any) {
+        this.addSubscription(prop, (value) => {
+            (this.rootElement as any)[propertyName] = value;
+        });
     }
 }
 export default ElementComponent;
