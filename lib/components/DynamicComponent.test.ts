@@ -18,7 +18,7 @@ describe("Dynamic component tests", () => {
             tagName: "strong",
             innerHTML: of("value2"),
         });
-        const child = new BehaviorSubject<Component<any>>(el1);
+        const child = new BehaviorSubject<Component<any> | undefined>(el1);
         const dynamic1 = new DynamicComponent({
             component: child,
             document: doc,
@@ -27,5 +27,7 @@ describe("Dynamic component tests", () => {
         expect(dynamic1.getRootElement().outerHTML).toBe(`<div><pre>value1</pre></div>`);
         child.next(el2);
         expect(dynamic1.getRootElement().outerHTML).toBe(`<div><strong>value2</strong></div>`);
+        child.next(undefined);
+        expect(dynamic1.getRootElement().innerHTML).toBe(``);
     });
 });
