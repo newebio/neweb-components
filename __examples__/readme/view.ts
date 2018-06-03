@@ -2,7 +2,7 @@ import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
 import { map } from "rxjs/operators/map";
 import { Subject } from "rxjs/Subject";
-import { Component, ElementComponent, InputComponent, List, TextNode } from "../..";
+import { Component, ElementComponent, InputComponent, ListComponent, TextNode } from "../..";
 import template = require("./template.html");
 
 enum EmailErrorType {
@@ -50,7 +50,7 @@ class View extends Component<{
                 },
             },
         }));
-        this.addElement("listEmails", new List({
+        this.addElement("listEmails", new ListComponent({
             items: this.emails,
         }));
     }

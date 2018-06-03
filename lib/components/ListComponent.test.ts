@@ -1,6 +1,6 @@
 import Document from "./../Document";
 import ElementComponent from "./ElementComponent";
-import List from "./List";
+import ListComponent from "./ListComponent";
 
 describe("Link component tests", () => {
     const doc = new Document({
@@ -8,7 +8,7 @@ describe("Link component tests", () => {
     });
     it("list with render one element from template", () => {
         const template = `<ul><li class="li1"></li></ul>`;
-        const list = new List({
+        const list = new ListComponent({
             document: doc,
             items: ["item1", "item2"],
         });
@@ -19,7 +19,7 @@ describe("Link component tests", () => {
             `<ul><li class="li1">item1</li><li class="li1">item2</li></ul>`);
     });
     it("list when render item is component", () => {
-        const list = new List({
+        const list = new ListComponent({
             document: doc,
             items: ["item1", "item2"],
             renderItem: (item) => new ElementComponent({

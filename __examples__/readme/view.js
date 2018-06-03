@@ -53,7 +53,7 @@ class View extends __1.Component {
                 },
             },
         }));
-        this.addElement("listEmails", new __1.List({
+        this.addElement("listEmails", new __1.ListComponent({
             items: this.emails,
         }));
     }
