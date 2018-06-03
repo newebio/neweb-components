@@ -2,8 +2,8 @@ import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { of } from "rxjs/observable/of";
 import { Component } from "../..";
 import Document from "./../Document";
-import DynamicComponent from "./DynamicComponent";
 import ElementComponent from "./ElementComponent";
+import ParentComponent from "./ParentComponent";
 
 describe("Dynamic component tests", () => {
     const doc = new Document({
@@ -19,7 +19,7 @@ describe("Dynamic component tests", () => {
             innerHTML: of("value2"),
         });
         const child = new BehaviorSubject<Component<any> | undefined>(el1);
-        const dynamic1 = new DynamicComponent({
+        const dynamic1 = new ParentComponent({
             component: child,
             document: doc,
         });

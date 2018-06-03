@@ -1,12 +1,12 @@
 import { Observable } from "rxjs/Observable";
-import Component, { IComponentProps } from "./../Component";
-import ElementComponent from "./ElementComponent";
-export interface IDynamicComponentProps extends IComponentProps {
+import Component from "./../Component";
+import ElementComponent, { IElementComponentProps } from "./ElementComponent";
+export interface IParentComponentProps extends IElementComponentProps {
     component: Component<any> | Observable<Component<any> | undefined> | undefined;
 }
-class DynamicComponent extends ElementComponent<IDynamicComponentProps> {
+class ParentComponent extends ElementComponent<IParentComponentProps> {
     protected currentComponent: Component<any> | undefined;
-    constructor(protected props: IDynamicComponentProps) {
+    constructor(protected props: IParentComponentProps) {
         super(props);
     }
     public afterMount() {
@@ -28,4 +28,4 @@ class DynamicComponent extends ElementComponent<IDynamicComponentProps> {
         }
     }
 }
-export default DynamicComponent;
+export default ParentComponent;
