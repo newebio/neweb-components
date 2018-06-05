@@ -20,7 +20,7 @@ describe("Dynamic component tests", () => {
         });
         const child = new BehaviorSubject<Component<any> | undefined>(el1);
         const dynamic1 = new ParentComponent({
-            component: child,
+            child,
             document: doc,
         });
         dynamic1.mount();

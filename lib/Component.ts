@@ -8,6 +8,7 @@ import { getElementAttributes, isObservable, nodesToMap } from "./util";
 export interface IComponentProps {
     document?: Document;
     template?: string;
+    inherit?: Component<any>;
 }
 class Component<T> {
     public static setDocument(document: Document) {
@@ -57,13 +58,18 @@ class Component<T> {
         //
         this.beforeMount();
         // create root element
-        // from template
-        const html = this.props.template ? this.props.template : this.getTemplate();
-        if (html) {
-            this.setRootElementByTemplate(html);
-        } else if (!this.rootElement) {
-            // from render
-            this.rootElement = this.render();
+        if (this.props.inherit) {
+            this.props.inherit.mount();
+            this.rootElement = this.props.inherit.getRootElement();
+        } else {
+            // from template
+            const html = this.props.template ? this.props.template : this.getTemplate();
+            if (html) {
+                this.setRootElementByTemplate(html);
+            } else if (!this.rootElement) {
+                // from render
+                this.rootElement = this.render();
+            }
         }
         this.afterMount();
         // method for replace root element for hydrate
