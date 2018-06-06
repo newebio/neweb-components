@@ -105,6 +105,9 @@ class Component<T> {
         this.children = nodesToMap(elForMount.childNodes);
         this.mountAttributes = getElementAttributes(elForMount);
     }
+    protected setTemplate(html: string) {
+        this.props.template = html;
+    }
     protected getTemplate(): string | undefined {
         return undefined;
     }

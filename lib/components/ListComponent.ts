@@ -2,7 +2,7 @@ import { Observable } from "rxjs/Observable";
 import { isComponent, isObservable } from "./../util";
 import ElementComponent, { IElementComponentProps } from "./ElementComponent";
 
-export interface IListProps<T> extends IElementComponentProps {
+export interface IListComponentProps<T> extends IElementComponentProps {
     items: T[] | Observable<T[]>;
     renderItem?: (item: T, index: number) => Element | ElementComponent<any> | string;
     class?: string;
@@ -11,7 +11,7 @@ class List<T> extends ElementComponent<IElementComponentProps> {
     protected items: T[];
     protected tagName: keyof HTMLElementTagNameMap = "ul";
     protected childNode?: Element;
-    constructor(protected props: IListProps<T>) {
+    constructor(protected props: IListComponentProps<T>) {
         super(props);
     }
     public mount(elForMount?: Element) {

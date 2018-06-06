@@ -1,14 +1,14 @@
 import { Observable } from "rxjs";
 import ElementComponent, { IElementComponentProps } from "./ElementComponent";
-export interface IHtmlComponent extends IElementComponentProps {
+export interface IHtmlComponentProps extends IElementComponentProps {
     styles?: {
         [index: string]: any | Observable<any>;
     };
 }
 class HtmlComponent<T> extends ElementComponent<T> {
     protected rootElement: HTMLElement;
-    protected props: IHtmlComponent & T;
-    constructor(props?: T & IHtmlComponent) {
+    protected props: IHtmlComponentProps & T;
+    constructor(props?: T & IHtmlComponentProps) {
         super(props);
     }
     public getRootElement(): HTMLElement {
