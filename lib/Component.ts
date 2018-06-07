@@ -38,7 +38,11 @@ class Component<T> {
     }
     public get document() {
         if (!this.documentValue) {
-            throw new Error("Document should be setted");
+            if (typeof (window) !== "undefined" && window.window === window) {
+                this.documentValue = new Document({ window });
+            } else {
+                throw new Error("Document should be setted");
+            }
         }
         return this.documentValue;
     }

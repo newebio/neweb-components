@@ -22,13 +22,29 @@ NewebComponents use RxJs as engine for reactivity.
 
 # Usage
 
+## Simple example :: counter
+
+```typescript
+import { interval } from "rxjs";
+import { t } from "rx-template-strings";
+import { HtmlComponent, render } from "neweb-components";
+// Create new component
+const view = new HtmlComponent({
+    innerHTML:  t`Counter: ${interval()}`,
+});
+// Render into container #root
+render(view, document.getElementById("root") as HTMLElement);
+```
+
+## Complex example
+
 // index.ts
 
 ```typescript
-import { interval } from "rxjs/observable/interval";
+import { interval } from "rxjs";
 import { Component, Document, render } from "neweb-components";
 import View from "./view";
-// Bind components to real window-object by special class `Document`
+// Bind components to real window-object by special class `Document`, for example, window can be from JSDOM
 Component.setDocument(new Document({
     window,
 }));
