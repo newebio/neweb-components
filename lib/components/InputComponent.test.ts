@@ -17,4 +17,19 @@ describe("InputComponent tests", () => {
         input.getRootElement().dispatchEvent(new Event("input"));
         expect(value.getValue()).toBe("val2");
     });
+    it("number input", () => {
+        const value = new BehaviorSubject(100);
+        const input = new InputComponent({
+            document: doc,
+            value,
+            format: {
+                from: (str) => parseInt(str, 10),
+            },
+        });
+        input.mount();
+        expect(input.getRootElement().value).toBe("100");
+        input.getRootElement().value = "101";
+        input.getRootElement().dispatchEvent(new Event("input"));
+        expect(value.getValue()).toBe(101);
+    });
 });
