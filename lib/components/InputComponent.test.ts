@@ -32,4 +32,17 @@ describe("InputComponent tests", () => {
         input.getRootElement().dispatchEvent(new Event("input"));
         expect(value.getValue()).toBe(101);
     });
+    it("trigger stream only after changing value", () => {
+        const value = new BehaviorSubject("1");
+        const fn = jest.fn();
+        value.subscribe(fn);
+        const input = new InputComponent({
+            value,
+        });
+        input.mount();
+        input.getRootElement().value = "102";
+        input.getRootElement().dispatchEvent(new Event("input"));
+        input.getRootElement().dispatchEvent(new Event("change"));
+        expect(fn.mock.calls.length).toBe(2);
+    });
 });

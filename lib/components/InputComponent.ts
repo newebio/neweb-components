@@ -15,6 +15,7 @@ class InputComponent extends ElementComponent<IInputComponentProps> {
     protected rootElement: HTMLInputElement;
     protected props: IInputComponentProps;
     protected isCheckBox = false;
+    protected oldValue: any;
     constructor(props?: IInputComponentProps) {
         super(props);
     }
@@ -28,7 +29,10 @@ class InputComponent extends ElementComponent<IInputComponentProps> {
                 const newValue = this.props.format && this.props.format.from ?
                     this.props.format.from(this.rootElement.value) :
                     this.rootElement.value;
-                this.props.value.next(newValue);
+                if (this.oldValue !== newValue) {
+                    this.props.value.next(newValue);
+                    this.oldValue = newValue;
+                }
             }
         };
         this.document.addEventListener(this.rootElement, "change", listenerFn, false);
@@ -38,6 +42,7 @@ class InputComponent extends ElementComponent<IInputComponentProps> {
                 this.props.format.to(value) : "" + value;
             if (newValue !== this.rootElement.value) {
                 this.rootElement.value = newValue;
+                this.oldValue = newValue;
             }
         });
     }
