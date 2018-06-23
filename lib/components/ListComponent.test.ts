@@ -21,16 +21,18 @@ describe("Link component tests", () => {
     it("list when render item is component", () => {
         const list = new ListComponent({
             document: doc,
-            items: ["item1", "item2"],
-            renderItem: (item) => new ElementComponent({
+            items: ["item1", "item2", "item3"],
+            renderItem: (item, index, items) => new ElementComponent({
                 tagName: "p",
-                innerHTML: item,
+                innerHTML: item + "::" + index + "::" + (items.length === index + 1 ? "last" : (
+                    index === 0 ? "first" : "none"
+                )),
             }),
             tagName: "div",
         });
         list.mount();
         expect(list.getRootElement().outerHTML).toBe(
-            `<div><p>item1</p><p>item2</p></div>`,
+            `<div><p>item1::0::first</p><p>item2::1::none</p><p>item3::2::last</p></div>`,
         );
     });
 });

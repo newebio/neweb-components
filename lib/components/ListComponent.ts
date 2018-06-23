@@ -4,7 +4,7 @@ import ElementComponent, { IElementComponentProps } from "./ElementComponent";
 
 export interface IListComponentProps<T> extends IElementComponentProps {
     items: T[] | Observable<T[]>;
-    renderItem?: (item: T, index: number) => Element | ElementComponent<any> | string;
+    renderItem?: (item: T, index: number, items: T[]) => Element | ElementComponent<any> | string;
     class?: string;
 }
 class List<T> extends ElementComponent<IElementComponentProps> {
@@ -66,7 +66,7 @@ class List<T> extends ElementComponent<IElementComponentProps> {
     protected render() {
         const ul = this.rootElement ? this.clone() : this.document.createElement(this.tagName);
         this.items.map((item, index) => {
-            const child = this.renderItem(item as any, index);
+            const child = this.renderItem(item as any, index, this.items);
             if (isComponent(child)) {
                 child.setDocument(this.document);
                 child.mount(this.childNode);
@@ -89,7 +89,7 @@ class List<T> extends ElementComponent<IElementComponentProps> {
         });
         return ul;
     }
-    protected renderItem(item: T, _: number): Element | ElementComponent<any> | string {
+    protected renderItem(item: T, _: number, __: T[]): Element | ElementComponent<any> | string {
         const li = this.document.createElement("li");
         li.innerHTML = item as any;
         return li;
