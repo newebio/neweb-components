@@ -7,6 +7,7 @@ import { getElementAttributes, isObservable, nodesToMap } from "./util";
 
 export interface IComponentProps {
     document?: Document;
+    elements?: { [index: string]: Component<any> };
     template?: string;
     inherit?: Component<any>;
 }
@@ -34,6 +35,12 @@ class Component<T> {
             this.documentValue = this.props.document;
         } else if (Component.document) {
             this.documentValue = Component.document;
+        }
+        if (this.props.elements) {
+            const elements = this.props.elements;
+            Object.keys(elements).map((elName) => {
+                this.addElement(elName, elements[elName]);
+            });
         }
     }
     public get document() {
